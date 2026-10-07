@@ -1,5 +1,5 @@
 ---
-name: jixinan-visual-design
+name: omnipotent-youth-society-design
 description: 为音乐、出版、展览与文化档案页面转译万能青年旅店《冀西南林路行》的视觉语言。适用于明确要求万青二专、冀西南林路行、墨麒麟、碑拓与经折装气质的设计；提供基于实物图像的构图、色彩、排版与交互指导。
 ---
 

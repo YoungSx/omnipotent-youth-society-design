@@ -8,7 +8,7 @@ An independent visual design study and reusable agent skill inspired by **Omnipo
 
 ## 内容
 
-- [SKILL.md](skill/SKILL.md)：可整体复制使用的 `jixinan-visual-design` 技能。
+- [SKILL.md](skill/SKILL.md)：可整体复制使用的 `omnipotent-youth-society-design` 技能。
 - [DESIGN.md](DESIGN.md)：构图、色彩、字体、材料、交互与验收规则。
 - [检索记录](research/SOURCES.md)：原始出处、证据层级与未确认事项。
 - [素材索引](research/asset-manifest.json)：逐项来源、尺寸、文件名和下载状态。
@@ -16,9 +16,9 @@ An independent visual design study and reusable agent skill inspired by **Omnipo
 
 ## 使用技能
 
-将整个 [`skill/`](skill/) 目录复制到你的 Agent 技能目录，并命名为 `jixinan-visual-design`。保留 `references/` 和 `assets/`，不要只复制入口文件。
+将整个 [`skill/`](skill/) 目录复制到你的 Agent 技能目录，并命名为 `omnipotent-youth-society-design`。保留 `references/` 和 `assets/`，不要只复制入口文件。
 
-使用 Codex 时，可放在 `~/.codex/skills/jixinan-visual-design/`，然后通过 `$jixinan-visual-design` 调用。技能文档本身不依赖 Python 或浏览器运行环境。
+使用 Codex 时，可放在 `~/.codex/skills/omnipotent-youth-society-design/`，然后通过 `$omnipotent-youth-society-design` 调用。技能文档本身不依赖 Python 或浏览器运行环境。
 
 ## 构建离线页面
 
@@ -35,7 +35,7 @@ python build.py
 
 ```text
 dist/
-  jixinan-visual-design.zip   # 完整技能包
+  omnipotent-youth-society-design.zip   # 完整技能包
   linlu-design-kit.zip        # 离线页面、设计文档、技能和素材索引
 ```
 

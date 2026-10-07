@@ -137,9 +137,9 @@ def write_archive(path: Path, files: dict[str, Path]) -> None:
 
 def package_outputs() -> None:
     skill = ROOT / "skill"
-    files = {f"jixinan-visual-design/{path.relative_to(skill).as_posix()}": path
+    files = {f"omnipotent-youth-society-design/{path.relative_to(skill).as_posix()}": path
              for path in skill.rglob("*") if path.is_file()}
-    write_archive(ROOT / "dist/jixinan-visual-design.zip", files)
+    write_archive(ROOT / "dist/omnipotent-youth-society-design.zip", files)
     kit = {f"skill/{path.relative_to(skill).as_posix()}": path
            for path in skill.rglob("*") if path.is_file()}
     for name in ["index.html", "README.md", "DESIGN.md", "research/SOURCES.md",
@@ -169,7 +169,7 @@ def main() -> None:
     result = dict(gallery=len(gallery), html="index.html", archives="dist/", offline_bytes=(ROOT / "index.html").stat().st_size)
     if args.install_skill:
         codex_home = Path(os.environ.get("CODEX_HOME", str(Path.home() / ".codex")))
-        destination = codex_home / "skills/jixinan-visual-design"
+        destination = codex_home / "skills/omnipotent-youth-society-design"
         shutil.copytree(ROOT / "skill", destination, dirs_exist_ok=True)
         result["installed"] = str(destination)
     print(json.dumps(result, ensure_ascii=False))
