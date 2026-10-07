@@ -1,20 +1,53 @@
-"""Behavioral smoke of the delivered file with external network disabled."""
+"""Check offline and project-site builds without external network access."""
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 import json
+import argparse
+from contextlib import contextmanager
+from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
+from functools import partial
+from threading import Thread
 
 root = Path(__file__).resolve().parents[1]
 artifacts = root / 'artifacts'
 artifacts.mkdir(exist_ok=True)
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--site', action='store_true', help='Check _site under an HTTP subpath.')
+args = parser.parse_args()
+mode = 'site' if args.site else 'offline'
+
+
+class QuietHandler(SimpleHTTPRequestHandler):
+    def log_message(self, format, *values):
+        pass
+
+
+@contextmanager
+def preview_target():
+    if not args.site:
+        yield (root / 'index.html').as_uri(), None
+        return
+    server = ThreadingHTTPServer(('127.0.0.1', 0), partial(QuietHandler, directory=str(root)))
+    thread = Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    origin = f'http://127.0.0.1:{server.server_port}'
+    try:
+        yield origin + '/_site/', origin
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=5)
+
+
 results = []
-with sync_playwright() as p:
+with preview_target() as (target_url, allowed_origin), sync_playwright() as p:
     browser = p.chromium.launch(headless=True)
     page = browser.new_page(viewport={'width': 1440, 'height': 1000}, reduced_motion='reduce', accept_downloads=True)
     errors = []
     page.on('pageerror', lambda error: errors.append(str(error)))
-    page.route('http://**/*', lambda route: route.abort())
+    page.route('http://**/*', lambda route: route.continue_() if allowed_origin and route.request.url.startswith(allowed_origin + '/') else route.abort())
     page.route('https://**/*', lambda route: route.abort())
-    page.goto((root/'index.html').as_uri())
+    page.goto(target_url)
     page.wait_for_function("document.fonts.status==='loaded' && document.querySelector('.rubbing img').naturalWidth>0")
     assert page.locator('.rubbing img').evaluate('(im)=>im.complete && im.naturalWidth>0')
     for width in (360, 728, 1440):
@@ -24,7 +57,7 @@ with sync_playwright() as p:
             assert page.evaluate('document.documentElement.scrollWidth <= innerWidth'), (width, view, 'horizontal overflow')
             results.append(f'{width}px {view}: no overflow')
         page.locator('#tab-landscape').click()
-        page.screenshot(path=str(artifacts/f'preview-{width}.png'),full_page=True)
+        page.screenshot(path=str(artifacts/f'{mode}-preview-{width}.png'),full_page=True)
     page.locator('#tab-archive').click()
     assert page.locator('.artifact').count() == 9
     page.locator('[data-filter="tour"]').click()
@@ -53,8 +86,10 @@ with sync_playwright() as p:
         download=event.value
         assert download.suggested_filename == filename
         assert Path(download.path()).stat().st_size > 1000
+        if key == 'skill':
+            assert 'name: omnipotent-youth-society-design\n' in Path(download.path()).read_text(encoding='utf-8')
     assert not errors, errors
-    results.extend(['38 offline thumbnail images loaded','Offline embedded font loaded','Theme and chapter switching passed','Filter and image inspector passed','Keyboard navigation and Escape passed','All 3 real file downloads passed','No uncaught JavaScript errors'])
-    (artifacts/'verification.json').write_text(json.dumps({'passed':True,'results':results,'errors':errors},ensure_ascii=False,indent=2),encoding='utf-8')
+    results.extend(['38 thumbnail images loaded','Embedded font loaded','Theme and chapter switching passed','Filter and image inspector passed','Keyboard navigation and Escape passed','All 3 real file downloads passed','No uncaught JavaScript errors'])
+    (artifacts/f'{mode}-verification.json').write_text(json.dumps({'mode':mode,'passed':True,'results':results,'errors':errors},ensure_ascii=False,indent=2),encoding='utf-8')
     browser.close()
-print(json.dumps({'passed':True,'results':results},ensure_ascii=False))
+print(json.dumps({'mode':mode,'passed':True,'results':results},ensure_ascii=False))

@@ -6,6 +6,8 @@ An independent visual design study and reusable agent skill inspired by **Omnipo
 
 这是一份独立整理的设计参考，包含可复用技能、设计规范、带来源的图像档案和可离线运行的 HTML 样本；不是乐队或原设计师发布的官方规范。
 
+**[在线预览：林路图志](https://shangxin.me/omnipotent-youth-society-design/)**
+
 ## 内容
 
 - [SKILL.md](skill/SKILL.md)：可整体复制使用的 `omnipotent-youth-society-design` 技能。
@@ -36,7 +38,7 @@ python build.py
 ```text
 dist/
   omnipotent-youth-society-design.zip   # 完整技能包
-  linlu-design-kit.zip        # 离线页面、设计文档、技能和素材索引
+  linlu-design-kit.zip                 # 离线页面、设计文档、技能和素材索引
 ```
 
 普通构建只写入当前仓库。需要显式安装到本机 Codex 时：
@@ -47,16 +49,29 @@ python build.py --install-skill
 
 如已设置 `CODEX_HOME`，安装目标为其 `skills/` 子目录；否则使用 `~/.codex/skills/`。`--preview` 仅用于额外生成含本机绝对路径的 T3 HTML 预览文件，该文件不会提交到 Git。
 
+## GitHub Pages
+
+在线预览作为本仓库的独立项目站点发布，路径为 `/omnipotent-youth-society-design/`，沿用账户站点的 `shangxin.me` 域名。部署不会修改 `youngsx.github.io` 仓库或账户主页的域名设置。
+
+`main` 分支通过构建和浏览器检查后，GitHub Actions 自动部署 `_site/`。Pull request 只运行验证。站点使用相对路径并按需加载独立图片；离线版仍保持单文件。
+
+```sh
+python build.py --site
+```
+
+以上命令额外生成 `_site/`。不需要手动提交生成页面，也不需要创建 `gh-pages` 分支。
+
 ## 验证
 
 ```sh
 python -m pip install -r requirements-dev.txt
 python -m playwright install chromium
-python build.py
+python build.py --site
 python tests/smoke.py
+python tests/smoke.py --site
 ```
 
-验证时阻止 HTTP/HTTPS 请求，检查 360、728、1440px 三档宽度，以及图片解码、主题切换、图录筛选、放大收起、章节切换、键盘操作和真实文件下载。截图与结果写入被 Git 忽略的 `artifacts/`。
+离线模式阻止 HTTP/HTTPS 请求；`--site` 模式启动临时本机服务器，在子路径下检查 Pages 版本，仅允许该服务器的请求。两种模式均检查 360、728、1440px 三档宽度，以及图片解码、主题切换、图录筛选、放大收起、章节切换、键盘操作和真实文件下载。截图与结果写入被 Git 忽略的 `artifacts/`。
 
 GitHub Actions 在 push 和 pull request 时执行相同构建与检查，并上传生成的交付压缩包。
 

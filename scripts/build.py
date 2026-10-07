@@ -148,10 +148,22 @@ def package_outputs() -> None:
     write_archive(ROOT / "dist/linlu-design-kit.zip", kit)
 
 
+def build_site(template: str, paths: list[str]) -> None:
+    """Keep web images separately cacheable and URLs relative to the project path."""
+    destination = ROOT / "_site"
+    write_text(destination / "index.html", template)
+    write_text(destination / ".nojekyll", "")
+    for path in paths:
+        target = destination / path
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(ROOT / path, target)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--install-skill", action="store_true", help="Explicitly install the built skill into CODEX_HOME/skills.")
     parser.add_argument("--preview", action="store_true", help="Also create an untracked T3 preview with local absolute asset paths.")
+    parser.add_argument("--site", action="store_true", help="Build a GitHub Pages site in _site with relative, cacheable image URLs.")
     args = parser.parse_args()
     catalog = read_json(ROOT / "data/catalog.json")
     gallery = build_gallery(catalog["titles"])
@@ -161,12 +173,16 @@ def main() -> None:
     prepare_skill(documents)
     template, paths = render_template(catalog, gallery, documents)
     write_text(ROOT / "index.html", embed_assets(template, paths))
+    if args.site:
+        build_site(template, paths)
     if args.preview:
         for path in paths:
             template = template.replace(path, (ROOT / path).as_posix())
         write_text(ROOT / "preview.tool.html", template)
     package_outputs()
     result = dict(gallery=len(gallery), html="index.html", archives="dist/", offline_bytes=(ROOT / "index.html").stat().st_size)
+    if args.site:
+        result["site"] = "_site/"
     if args.install_skill:
         codex_home = Path(os.environ.get("CODEX_HOME", str(Path.home() / ".codex")))
         destination = codex_home / "skills/omnipotent-youth-society-design"

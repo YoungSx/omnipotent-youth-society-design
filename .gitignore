@@ -4,6 +4,7 @@
 /*.zip
 /dist/
 /artifacts/
+/_site/
 /assets/thumb-*
 /assets/view-*
 
