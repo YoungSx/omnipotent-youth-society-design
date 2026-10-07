@@ -1,0 +1,27 @@
+# Generated pages and release archives
+/index.html
+/preview.tool.html
+/*.zip
+/dist/
+/artifacts/
+/assets/thumb-*
+/assets/view-*
+
+# Full-resolution research originals are preserved locally, not in Git.
+/assets/album-scroll-*
+/assets/ma-shan-zheng-subset.woff2
+
+# Only the curated sources and asset index belong in the repository.
+/research/*
+!/research/SOURCES.md
+!/research/asset-manifest.json
+
+# Local Python environments and credentials
+__pycache__/
+*.py[cod]
+.venv/
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db

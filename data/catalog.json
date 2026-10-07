@@ -1,0 +1,134 @@
+{
+  "titles": {
+    "album-scans-01": "01 / 实体封面",
+    "album-scans-02": "02 / 碟面与内托",
+    "album-scans-03": "03 / 三折封套展开",
+    "album-scans-04": "04 / 折页封面",
+    "album-scans-05": "05 / 深墨色封套",
+    "album-scans-06": "06 / 经折长卷 · 插图面",
+    "album-scans-07": "07 / 经折长卷 · 文字面",
+    "album-scans-08": "08 / PDF 册页的封面预览",
+    "digital-cover-01": "09 / 数字版封面",
+    "tour-2024-taiwan": "10 / 2024 亚洲巡演",
+    "tour-2023-shanghai": "11 / 2023 上海特别专场",
+    "first-era-01": "12 / 乐队摄影 · 河岸",
+    "first-era-02": "13 / 人像叠印",
+    "first-era-03": "14 / 乐队摄影 · 山脊",
+    "first-era-04": "15 / 董亚千现场摄影",
+    "first-era-05": "16 / 姬赓现场摄影",
+    "first-era-06": "17 / 乐队与巡演图像",
+    "first-era-07": "18 / 水陆观音海报 · 设计师其他作品",
+    "first-era-08": "19 / 首专全国巡演海报",
+    "first-era-09": "20 / 首专封面展示",
+    "first-era-10": "21 / New Order《Technique》· 专访中的影响来源",
+    "first-era-11": "22 / 首专实物封套",
+    "first-era-12": "23 / 首专内页排版 A",
+    "first-era-13": "24 / 首专内页排版 B",
+    "first-era-14": "25 / 首专 CD 与包装",
+    "first-era-15": "26 / 首专歌词册局部 A",
+    "first-era-16": "27 / 首专歌词册局部 B",
+    "first-era-17": "28 / 首专折页与纸张",
+    "first-era-18": "29 / 首专人像拼贴内页",
+    "first-era-19": "30 / 飞马与跳水者海报",
+    "first-era-20": "31 / 万青 × 甜梅号联合巡演",
+    "first-era-21": "32 / 观众摄影",
+    "first-era-22": "33 / 首专概念图辑 A",
+    "first-era-23": "34 / 首专概念图辑 B",
+    "first-era-24": "35 / 首专概念图辑 C",
+    "first-era-25": "36 / 乐队摄影 · 河岸合影",
+    "first-era-26": "37 / 首专概念图辑 D",
+    "first-era-27": "38 / 乐器摄影"
+  },
+  "chapters": [
+    {
+      "name": "早",
+      "title": "山川初醒",
+      "english": "BEFORE THE DAY",
+      "copy": "天色尚未明亮，山体先浮出轮廓。留白容纳第一口呼吸，细线在沉默中显现。这里的开始，是缓慢地看见。"
+    },
+    {
+      "name": "泥河",
+      "title": "水下旧事",
+      "english": "BENEATH THE RIVER",
+      "copy": "河流携带泥沙，也携带人的痕迹。让文字靠近边缘，让中央的空地保留未被说尽的部分；浑浊也可以有清晰的结构。"
+    },
+    {
+      "name": "平等云雾",
+      "title": "重山入雾",
+      "english": "IN THE MIST",
+      "copy": "远近暂时失去分别，形象退入纸的灰度。减去一层信息，留住一点方向；视觉的停顿，也是阅读的一部分。"
+    },
+    {
+      "name": "采石",
+      "title": "山石有声",
+      "english": "A FRACTURED LAND",
+      "copy": "坚硬的轮廓遇到切割。图像中的残损与整齐的信息线相邻，一边保留山体的重量，一边显出人工秩序的介入。"
+    },
+    {
+      "name": "山雀",
+      "title": "林间微光",
+      "english": "A SMALL LIFE",
+      "copy": "把目光从巨大山体移到一只小鸟。更轻的线、更松的间距，让细小的生命在厚重底色上获得它的位置。"
+    },
+    {
+      "name": "绕越",
+      "title": "沿路而行",
+      "english": "ANOTHER PATH",
+      "copy": "阅读不总沿着直线向前。折页打开，图像不断相接；保持清晰的目录，也为偏离主路的观察留一个入口。"
+    },
+    {
+      "name": "河北墨麒麟",
+      "title": "墨中万物",
+      "english": "THE DARK QILIN",
+      "copy": "一个古老兽形占据画面的中心，鳞片、鬃毛与回转的曲线互相缠绕。周围不再增加别的象征，让一个形象承受足够的重量。"
+    },
+    {
+      "name": "郊眠寺",
+      "title": "回到林间",
+      "english": "INSIDE THE TEMPLE",
+      "copy": "密集图像之后，再把页面归还给空白。书写回到人的尺度，留下可阅读的短文、安静的边界和继续向前的路。"
+    }
+  ],
+  "source_rows": [
+    [
+      "二专实体图像档案",
+      "https://musicbrainz.org/release/6a48d760-96fa-43e9-9b2b-1a4e51c80be4/cover-art",
+      "8 项图像与册页条目；另取得两面 65,500px 宽的原始长卷。"
+    ],
+    [
+      "数字封面档案",
+      "https://musicbrainz.org/release/9f9f3ee9-5565-4ee5-ab93-cc15d02b0b80/cover-art",
+      "用于核对主图、疏排汉字与英文题名的关系。"
+    ],
+    [
+      "高雄流行音乐中心 · 2024 巡演",
+      "https://kpmc.com.tw/program/2024-lwh-0316/",
+      "场馆发布的海报，属于二专巡演的直接使用材料。"
+    ],
+    [
+      "上海特别专场 · 2023",
+      "https://www.ypiao.com/t_95766/",
+      "票务图片已取得；网页直连受限，历史图案的具体出处未确认。"
+    ],
+    [
+      "Hypebeast · 阮千瑞设计专访",
+      "https://hypebeast.cn/2020/11/omnipotent-youth-society-10-year-anniversary",
+      "关于首专的采访与 27 张图像。作为设计沿革，不能代替二专的设计说明。"
+    ],
+    [
+      "南方人物周刊 · 乐队专访",
+      "https://www.nfpeople.com/article/10613",
+      "太行行旅、开采景观与创作过程的采访背景。"
+    ],
+    [
+      "巡演设计署名 / 2022",
+      "https://www.sohu.com/a/526540247_121124721",
+      "公告明确标注海报设计阮千瑞；转载页面。"
+    ],
+    [
+      "字体替代 · Ma Shan Zheng",
+      "https://github.com/google/fonts/tree/main/ofl/mashanzheng",
+      "OFL 开源字体，本页只嵌入展示标题所需字符；非原封面字体。"
+    ]
+  ]
+}
