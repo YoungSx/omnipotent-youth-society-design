@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>万能青年旅店视觉设计 · 拓片视口模板</title>
+  <style>
+    :root {
+      /* 基础墨石层 (Basalt & Ink) */
+      --ink-void:      #0e100c;
+      --ink-primary:   #171913;
+      --ink-subtle:    #24261e;
+
+      /* 纤维纸料层 (Pulp & Mineral) */
+      --paper-base:    #d3cbb4;
+      --paper-bright:  #e4ddcb;
+      --paper-section: #dfd8c4;
+
+      /* 风化与刻痕 (Weathering & Incision) */
+      --dust-stone:    #a8a18b;
+      --earth-slate:   #847b62;
+      --line-carve:    #4c4c3e;
+      --line-paper:    #a49e8a;
+
+      /* 伴生印记层 (全幅占比严格 < 2%) */
+      --iron-rust:     #9c5847;
+
+      /* 排印基础 */
+      --font-display:  "Ma Shan Zheng", "STKaiti", "KaiTi", serif;
+      --font-body:     "Noto Serif SC", "Source Han Serif SC", "SimSun", serif;
+      --font-archival: "Georgia", "Garamond", "Times New Roman", serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--ink-primary);
+      color: var(--paper-base);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* 纸质矿物吸光噪点层 (透明度严格 <= 0.045) */
+    .mineral-noise {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 100;
+      opacity: 0.038;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    /* 拓片容器：纯二维哑光，严禁浮雕刻槽阴影与发光 */
+    .rubbing-monolith {
+      width: min(92vw, 840px);
+      background-color: var(--ink-void);
+      border: 1px solid var(--line-carve);
+      padding: clamp(2rem, 5vw, 4rem);
+      position: relative;
+      margin: 2rem auto;
+    }
+
+    /* 四角直角微型定位折标 */
+    .rubbing-monolith::before,
+    .rubbing-monolith::after {
+      content: "";
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-color: var(--earth-slate);
+      border-style: solid;
+      pointer-events: none;
+    }
+    .rubbing-monolith::before {
+      top: -1px;
+      left: -1px;
+      border-width: 1px 0 0 1px;
+    }
+    .rubbing-monolith::after {
+      bottom: -1px;
+      right: -1px;
+      border-width: 0 1px 1px 0;
+    }
+
+    /* 顶部档案元数据行 */
+    .archival-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 1px solid var(--line-carve);
+      padding-bottom: 0.75rem;
+      margin-bottom: 3rem;
+      font-family: var(--font-archival);
+      font-size: 11px;
+      letter-spacing: 0.20em;
+      text-transform: uppercase;
+      color: var(--dust-stone);
+    }
+
+    .archival-header .catalog-no {
+      color: var(--paper-bright);
+      font-weight: 600;
+    }
+
+    /* 核心展示大字与行气微落差 */
+    .display-title {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 8vw, 6rem);
+      line-height: 1.1;
+      letter-spacing: 0.04em;
+      color: var(--paper-bright);
+      margin-bottom: 2rem;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      gap: 0.1em;
+    }
+
+    /* 行气微落差：偶数字符纵向微下沉，破除机械字库对齐 */
+    .display-title span:nth-child(even) {
+      transform: translateY(6px);
+      display: inline-block;
+    }
+
+    .subtitle-latin {
+      font-family: var(--font-archival);
+      font-size: clamp(10px, 1.4vw, 14px);
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      text-align: center;
+      color: var(--dust-stone);
+      margin-bottom: 3rem;
+    }
+
+    /* 正文宋体与尺度反差对比 */
+    .archival-body {
+      font-size: 14px;
+      line-height: 1.9;
+      color: var(--paper-base);
+      max-width: 48ch;
+      margin: 0 auto 3rem auto;
+      text-align: justify;
+      letter-spacing: 0.05em;
+    }
+
+    /* 底部技术参数槽格 */
+    .stele-footer {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem;
+      border-top: 1px solid var(--line-carve);
+      padding-top: 1rem;
+      font-size: 10px;
+      color: var(--dust-stone);
+      font-family: var(--font-archival);
+      letter-spacing: 0.12em;
+    }
+
+    .stele-footer span strong {
+      color: var(--paper-base);
+      font-weight: 500;
+    }
+
+    .rust-accent {
+      color: var(--iron-rust);
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="mineral-noise" aria-hidden="true"></div>
+
+  <main class="rubbing-monolith">
+    <header class="archival-header">
+      <span class="catalog-no">REF / OYS-02-ARCH</span>
+      <span>INSIDE THE CABLE TEMPLE STUDY</span>
+      <span>114°29'E 38°02'N</span>
+    </header>
+
+    <h1 class="display-title" aria-label="冀西南林路行">
+      <span>冀</span><span>西</span><span>南</span><span>林</span><span>路</span><span>行</span>
+    </h1>
+
+    <p class="subtitle-latin">Omnipotent Youth Society · Archival Visual Standard</p>
+
+    <article class="archival-body">
+      太行山脉的地质崩解、工业重器的剧烈开凿、与汉魏石刻在现代废墟中的沉郁共鸣。
+      黑色不是背景，而是被松烟墨渗透的沉重石板原体；浅线不是绘制的线条，而是岩石受刀斧剔凿后露出的天然矿质。
+    </article>
+
+    <footer class="stele-footer">
+      <span>SERIES: <strong>MONOLITH-01</strong></span>
+      <span>SURFACE: <strong>2D MINERAL MATTE</strong></span>
+      <span>STATUS: <span class="rust-accent">CONFIRMED</span></span>
+    </footer>
+  </main>
+</body>
+</html>
