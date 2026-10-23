@@ -19,6 +19,7 @@ REQUIRED_FRONTMATTER_FIELDS = [
     "category",
     "version",
     "author",
+    "icon",
 ]
 
 
@@ -51,6 +52,10 @@ def validate_skill():
         sys.exit(f"Error: Missing required frontmatter fields: {missing}")
     for k in REQUIRED_FRONTMATTER_FIELDS:
         print(f"    ✓ {k}: {meta[k]}")
+    icon_path = SKILL_DIR / meta["icon"]
+    if not icon_path.is_file():
+        sys.exit(f"Error: Icon file specified in frontmatter does not exist: {icon_path}")
+    print(f"    ✓ icon asset exists: {meta['icon']} ({icon_path.stat().st_size} bytes)")
 
     # 2. Sub-resource directories
     print("[2] Checking standard sub-resource directories...")

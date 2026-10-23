@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/icon.png" width="128" height="128" alt="Omnipotent Youth Society Design Icon" style="border-radius: 20%;" />
+</p>
+
 # Omnipotent Youth Society Design
 
 万能青年旅店视觉设计研究与 Agent Skill（美学偏向于第二张录音室专辑 **《冀西南林路行》 / Inside the Cable Temple**）。
@@ -10,7 +14,8 @@ An independent visual design study and reusable agent skill inspired by **Omnipo
 
 ## 内容结构
 
-- [skill/SKILL.md](skill/SKILL.md)：符合 WorkBuddy 开放平台与 Agent Skill 规范的技能主文件（展示名：**万能青年旅店视觉设计**，标识：`omnipotent-youth-society-design`）。
+- [skill/SKILL.md](skill/SKILL.md)：符合 WorkBuddy 开放平台与 Agent Skill 规范的技能主文件（展示名：**万能青年旅店视觉设计**，标识：`omnipotent-youth-society-design`，包含 `icon` 元数据）。
+- [skill/assets/icon.png](skill/assets/icon.png) / [assets/icon.png](assets/icon.png)：512×512 矿物墨色项目与技能 Icon。
 - [skill/references/](skill/references/)：补充规范与信源考据（含 [DESIGN.md](skill/references/DESIGN.md) 与 [SOURCES.md](skill/references/SOURCES.md)），在 SKILL.md 中通过 `@references/` 注入。
 - [skill/templates/](skill/templates/)：跨媒介设计模板（含 `web-rubbing-view.html` 拓片视口、`poster-template.svg` 金石矢量海报与 `workflow.sh` 流水线脚本）。
 - [DESIGN.md](DESIGN.md)：构图、色彩、字体、材料、交互与验收规则。
@@ -21,7 +26,8 @@ An independent visual design study and reusable agent skill inspired by **Omnipo
 ## 技能与开放平台规范
 
 本技能对齐 [WorkBuddy 开放平台技能市场规范](https://open.workbuddy.cn/docs/skill#技能市场) 及通用 Agent Skill 标准：
-- **Frontmatter 元数据**：完整定义 `name`、`display_name`（万能青年旅店视觉设计）、`description`、`description_zh`、`description_en`、`category`、`version`、`author` 等必填字段。
+- **Frontmatter 元数据**：完整定义 `name`、`display_name`（万能青年旅店视觉设计）、`icon`（`assets/icon.png`）、`description`、`description_zh`、`description_en`、`category`、`version`、`author` 等标准字段，符合技能市场发布规范。
+- **自包含资源架构**：技能包（`skill/`）自包含 `assets/icon.png` 图标资产，脱离主仓库独立分发至 Agent 宿主环境（如 Codex / WorkBuddy 平台）时头像不丢失。
 - **子资源调用**：规范使用 `@references/` 与 `@templates/` 语法，确保 Agent 与平台能自动挂载上下文。
 - **合规静态检查**：可一键校验技能元数据、目录结构与引用有效性：
 
