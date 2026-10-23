@@ -147,7 +147,7 @@ def package_outputs() -> None:
     for name in ["index.html", "README.md", "DESIGN.md", "research/SOURCES.md",
                  "research/asset-manifest.json", "assets/FONT-LICENSE.txt", "assets/icon.png"]:
         kit[name] = ROOT / name
-    write_archive(ROOT / "dist/linlu-design-kit.zip", kit)
+    write_archive(ROOT / "dist/omnipotent-youth-society-design-kit.zip", kit)
 
 
 def build_site(template: str, paths: list[str]) -> None:

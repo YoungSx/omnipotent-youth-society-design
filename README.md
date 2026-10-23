@@ -56,8 +56,8 @@ python build.py
 
 ```text
 dist/
-  omnipotent-youth-society-design.zip   # 完整技能包（含 SKILL.md, references/, templates/, assets/）
-  linlu-design-kit.zip                 # 离线页面、设计文档、技能和素材索引
+  omnipotent-youth-society-design.zip       # 完整技能包（含 SKILL.md, references/, templates/, assets/）
+  omnipotent-youth-society-design-kit.zip   # 完整离线套件（离线页面、设计文档、技能和素材索引）
 ```
 
 普通构建只写入当前仓库。需要显式安装到本机 Codex 时：
