@@ -19,6 +19,7 @@ An independent visual design study and reusable agent skill inspired by **Omnipo
 - [skill/references/](skill/references/)：补充规范与信源考据（含 [DESIGN.md](skill/references/DESIGN.md) 与 [SOURCES.md](skill/references/SOURCES.md)），在 SKILL.md 中通过 `@references/` 注入。
 - [skill/templates/](skill/templates/)：跨媒介设计模板（含 `web-rubbing-view.html` 拓片视口、`poster-template.svg` 金石矢量海报与 `workflow.sh` 流水线脚本）。
 - [DESIGN.md](DESIGN.md)：构图、色彩、字体、材料、交互与验收规则。
+- [docs/RELEASE.md](docs/RELEASE.md)：发布制品架构、版本号规约、质量门禁与自动化发版 SOP 指南。
 - [检索记录](research/SOURCES.md)：原始出处、证据层级与未确认事项。
 - [素材索引](research/asset-manifest.json)：逐项来源、尺寸、文件名和下载状态。
 - `page.template.html`：HTML / CSS / JavaScript 源模板，包含漫游、图录和规约三个视图。
@@ -68,20 +69,7 @@ python build.py --install-skill
 
 如已设置 `CODEX_HOME`，安装目标为其 `skills/` 子目录；否则使用 `~/.codex/skills/`。`--preview` 仅用于额外生成含本机绝对路径的 T3 HTML 预览文件，该文件不会提交到 Git。
 
-## 自动化发版与 Release CI
-
-项目配置了 GitHub Actions 自动化发版流水线（`.github/workflows/release.yml`）：
-- **触发机制**：
-  - 推送语义化版本 Tag 时自动触发（如 `git push origin v1.0.0`）。
-  - 支持在 GitHub Actions 页面通过 `workflow_dispatch` 手动触发（支持指定 tag、草稿或预发布选项）。
-- **质量门禁卡点**：
-  1. 静态验证技能 Frontmatter 与文件引用有效性 (`python scripts/validate_skill.py`)
-  2. 构建打包离线单文件页面与分发 ZIP (`python build.py`)
-  3. 执行 Headless 冒烟测试断言离线完整性与无水平溢出 (`python tests/smoke.py`)
-- **发布资产清单**：
-  - `omnipotent-youth-society-design.zip` / `omnipotent-youth-society-design-vX.Y.Z.zip`：纯净 Agent 技能包。
-  - `omnipotent-youth-society-design-kit.zip` / `omnipotent-youth-society-design-kit-vX.Y.Z.zip`：完整离线研究与画廊套件。
-  - `checksums.txt`：所有发布包的 SHA-256 校验哈希文件。
+详细的发版架构、质量门禁与 Release CI 流程请参阅 **[发布规范与 Release 指南](docs/RELEASE.md)**。
 
 ## GitHub Pages
 
