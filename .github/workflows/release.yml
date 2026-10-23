@@ -1,0 +1,109 @@
+name: Release Packages
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag name (e.g. v1.0.0, leave empty to read from skill version)'
+        required: false
+        type: string
+        default: ''
+      draft:
+        description: 'Publish as draft'
+        required: false
+        type: boolean
+        default: false
+      prerelease:
+        description: 'Publish as prerelease'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
+
+      - name: Install Chromium for headless testing
+        run: python -m playwright install --with-deps chromium
+
+      - name: Validate skill specification
+        run: python scripts/validate_skill.py
+
+      - name: Build offline page and skill packages
+        run: python build.py
+
+      - name: Check offline behavior
+        run: python tests/smoke.py
+
+      - name: Prepare release assets and checksums
+        id: prepare
+        run: |
+          INPUT_TAG="${{ inputs.tag }}"
+          REF_NAME="${{ github.ref_name }}"
+          if [ -n "$INPUT_TAG" ]; then
+            TAG="$INPUT_TAG"
+          elif [[ "$REF_NAME" == v* ]]; then
+            TAG="$REF_NAME"
+          else
+            VERSION=$(python -c 'import yaml; print(yaml.safe_load(open("skill/SKILL.md").read().split("---")[1])["version"])')
+            TAG="v${VERSION}"
+          fi
+
+          echo "Target Release Tag: $TAG"
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+
+          cd dist
+          cp omnipotent-youth-society-design.zip "omnipotent-youth-society-design-${TAG}.zip"
+          cp omnipotent-youth-society-design-kit.zip "omnipotent-youth-society-design-kit-${TAG}.zip"
+          sha256sum *.zip > checksums.txt
+          cat checksums.txt
+
+      - name: Create or update GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${{ steps.prepare.outputs.tag }}"
+          FLAGS=()
+          if [ "${{ inputs.draft }}" = "true" ]; then
+            FLAGS+=("--draft")
+          fi
+          if [ "${{ inputs.prerelease }}" = "true" ]; then
+            FLAGS+=("--prerelease")
+          fi
+
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG already exists. Uploading assets..."
+            gh release upload "$TAG" dist/*.zip dist/checksums.txt --clobber
+          else
+            echo "Creating new release $TAG..."
+            gh release create "$TAG" dist/*.zip dist/checksums.txt \
+              --title "$TAG" \
+              --generate-notes \
+              "${FLAGS[@]}"
+          fi
