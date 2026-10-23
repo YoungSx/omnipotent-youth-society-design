@@ -8,6 +8,7 @@ description_en: Omnipotent Youth Society visual design skill, centered on the ae
 category: design
 version: 1.0.0
 author: Omnipotent Youth Society Design Lab
+icon: assets/icon.png
 allowed-tools: bash,read_file
 user-invocable: true
 disable-model-invocation: false

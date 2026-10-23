@@ -76,7 +76,8 @@ def prepare_skill(documents: dict) -> None:
     files = [("view-digital-cover-01.jpg", "reference-cover.jpg"),
              ("view-tour-2023-shanghai.jpg", "reference-shanghai.jpg"),
              ("view-tour-2024-taiwan.jpg", "reference-taiwan.jpg"),
-             ("FONT-LICENSE.txt", "FONT-LICENSE.txt")]
+             ("FONT-LICENSE.txt", "FONT-LICENSE.txt"),
+             ("icon.png", "icon.png")]
     for source, name in files:
         shutil.copyfile(ASSETS / source, destination / name)
 
@@ -94,7 +95,8 @@ def render_template(catalog: dict, gallery: list[dict], documents: dict) -> tupl
                     "CHAPTERS": json.dumps(chapters, ensure_ascii=False),
                     "DOCUMENTS": json.dumps(documents, ensure_ascii=False),
                     "HERO": "assets/digital-cover-01.jpg", "SCROLL": "assets/scroll-web-01.jpg",
-                    "GALLERY": json.dumps(gallery, ensure_ascii=False)}
+                    "GALLERY": json.dumps(gallery, ensure_ascii=False),
+                    "FAVICON": data_url(ASSETS / "icon.png")}
     for key, value in replacements.items():
         template = template.replace(f"%%{key}%%", value)
     paths = {item[key] for item in gallery for key in ("thumb", "full")}
@@ -143,7 +145,7 @@ def package_outputs() -> None:
     kit = {f"skill/{path.relative_to(skill).as_posix()}": path
            for path in skill.rglob("*") if path.is_file()}
     for name in ["index.html", "README.md", "DESIGN.md", "research/SOURCES.md",
-                 "research/asset-manifest.json", "assets/FONT-LICENSE.txt"]:
+                 "research/asset-manifest.json", "assets/FONT-LICENSE.txt", "assets/icon.png"]:
         kit[name] = ROOT / name
     write_archive(ROOT / "dist/linlu-design-kit.zip", kit)
 
