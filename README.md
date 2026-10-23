@@ -1,6 +1,6 @@
 # Omnipotent Youth Society Design
 
-万能青年旅店视觉设计研究与 Agent Skill，重点为第二张专辑 **《冀西南林路行》 / Inside the Cable Temple**。
+万能青年旅店视觉设计研究与 Agent Skill（美学偏向于第二张录音室专辑 **《冀西南林路行》 / Inside the Cable Temple**）。
 
 An independent visual design study and reusable agent skill inspired by **Omnipotent Youth Society**, with a focus on *Inside the Cable Temple*.
 
@@ -8,21 +8,34 @@ An independent visual design study and reusable agent skill inspired by **Omnipo
 
 **[在线预览：林路图志](https://shangxin.me/omnipotent-youth-society-design/)**
 
-## 内容
+## 内容结构
 
-- [SKILL.md](skill/SKILL.md)：可整体复制使用的 `omnipotent-youth-society-design` 技能。
+- [skill/SKILL.md](skill/SKILL.md)：符合 WorkBuddy 开放平台与 Agent Skill 规范的技能主文件（展示名：**万能青年旅店视觉设计**，标识：`omnipotent-youth-society-design`）。
+- [skill/references/](skill/references/)：补充规范与信源考据（含 [DESIGN.md](skill/references/DESIGN.md) 与 [SOURCES.md](skill/references/SOURCES.md)），在 SKILL.md 中通过 `@references/` 注入。
+- [skill/templates/](skill/templates/)：跨媒介设计模板（含 `web-rubbing-view.html` 拓片视口、`poster-template.svg` 金石矢量海报与 `workflow.sh` 流水线脚本）。
 - [DESIGN.md](DESIGN.md)：构图、色彩、字体、材料、交互与验收规则。
 - [检索记录](research/SOURCES.md)：原始出处、证据层级与未确认事项。
 - [素材索引](research/asset-manifest.json)：逐项来源、尺寸、文件名和下载状态。
 - `page.template.html`：HTML / CSS / JavaScript 源模板，包含漫游、图录和规约三个视图。
 
+## 技能与开放平台规范
+
+本技能对齐 [WorkBuddy 开放平台技能市场规范](https://open.workbuddy.cn/docs/skill#技能市场) 及通用 Agent Skill 标准：
+- **Frontmatter 元数据**：完整定义 `name`、`display_name`（万能青年旅店视觉设计）、`description`、`description_zh`、`description_en`、`category`、`version`、`author` 等必填字段。
+- **子资源调用**：规范使用 `@references/` 与 `@templates/` 语法，确保 Agent 与平台能自动挂载上下文。
+- **合规静态检查**：可一键校验技能元数据、目录结构与引用有效性：
+
+```sh
+python scripts/validate_skill.py
+```
+
 ## 使用技能
 
-将整个 [`skill/`](skill/) 目录复制到你的 Agent 技能目录，并命名为 `omnipotent-youth-society-design`。保留 `references/` 和 `assets/`，不要只复制入口文件。
+将整个 [`skill/`](skill/) 目录复制到你的 Agent 技能目录，并命名为 `omnipotent-youth-society-design`。保留 `references/`、`templates/` 和 `assets/`，不要只复制入口文件。
 
 使用 Codex 时，可放在 `~/.codex/skills/omnipotent-youth-society-design/`，然后通过 `$omnipotent-youth-society-design` 调用。技能文档本身不依赖 Python 或浏览器运行环境。
 
-## 构建离线页面
+## 构建离线页面与技能发布包
 
 需要 Python 3.11 或更新版本。在仓库根目录运行：
 
@@ -33,11 +46,11 @@ python build.py
 
 直接用浏览器打开生成的 `index.html`。图片和展示字体均已嵌入，浏览页面不需要联网；访问出处链接需要联网。
 
-构建同时生成：
+构建同时生成可直接上传或分发的 ZIP 包：
 
 ```text
 dist/
-  omnipotent-youth-society-design.zip   # 完整技能包
+  omnipotent-youth-society-design.zip   # 完整技能包（含 SKILL.md, references/, templates/, assets/）
   linlu-design-kit.zip                 # 离线页面、设计文档、技能和素材索引
 ```
 
@@ -58,41 +71,3 @@ python build.py --install-skill
 ```sh
 python build.py --site
 ```
-
-以上命令额外生成 `_site/`。不需要手动提交生成页面，也不需要创建 `gh-pages` 分支。
-
-## 验证
-
-```sh
-python -m pip install -r requirements-dev.txt
-python -m playwright install chromium
-python build.py --site
-python tests/smoke.py
-python tests/smoke.py --site
-```
-
-离线模式阻止 HTTP/HTTPS 请求；`--site` 模式启动临时本机服务器，在子路径下检查 Pages 版本，仅允许该服务器的请求。两种模式均检查 360、728、1440px 三档宽度，以及图片解码、主题切换、图录筛选、放大收起、章节切换、键盘操作和真实文件下载。截图与结果写入被 Git 忽略的 `artifacts/`。
-
-GitHub Actions 在 push 和 pull request 时执行相同构建与检查，并上传生成的交付压缩包。
-
-## 目录
-
-```text
-assets/          构建所需参考图像、长卷轻量版与字体
-data/            图录标题、章节短文与来源数据
-research/        检索记录与原始素材索引
-scripts/         可移植的构建与打包逻辑
-skill/           可独立复制的 Agent Skill
-tests/           离线浏览器检查
-DESIGN.md        设计规范
-page.template.html
-build.py         构建入口
-```
-
-仓库保留 38 张研究预览图及构建所需的轻量长卷。最初取得的两面高分辨率长卷约 298 MiB，保留在研究者本地；其来源仍在素材索引中，克隆仓库后无需下载这些原件即可构建。生成页面、重复缩略图、日志、网页抓取缓存和本机路径文件均不进入版本历史。
-
-## 署名与使用范围
-
-原专辑设计署名 **阮千瑞**。图像来自专辑实物资料、巡演材料和媒体访谈，各项出处见素材索引与检索记录；原作、摄影、其他专辑图片等权利属于相应权利人。本项目的网页转译和独立观察不代表乐队或设计师的官方解释。
-
-Ma Shan Zheng 为本页采用的替代字库，并非原封面字体；字体遵循其 [SIL Open Font License](assets/FONT-LICENSE.txt)。仓库公开不改变第三方素材的授权状态，本仓库未对全部内容统一授予新的开源许可。

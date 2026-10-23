@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1600" width="1200" height="1600" style="background:#171913; font-family:'Noto Serif SC', serif;">
+  <defs>
+    <!-- 纸质矿物吸光噪点滤镜 -->
+    <filter id="mineral-grain" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" result="noise" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0.8   0 0 0 0 0.78   0 0 0 0 0.7   0 0 0 0.04 0" />
+      <feBlend mode="multiply" in="SourceGraphic" />
+    </filter>
+  </defs>
+
+  <!-- 噪点覆盖层 -->
+  <rect width="1200" height="1600" fill="#171913" />
+  <rect width="1200" height="1600" filter="url(#mineral-grain)" fill="#d3cbb4" opacity="0.04" />
+
+  <!-- 外围印刷裁切标记 Corner Marks -->
+  <g stroke="#847b62" stroke-width="1" fill="none">
+    <path d="M 40 70 L 40 40 L 70 40" />
+    <path d="M 1160 70 L 1160 40 L 1130 40" />
+    <path d="M 40 1530 L 40 1560 L 70 1560" />
+    <path d="M 1160 1530 L 1160 1560 L 1130 1560" />
+  </g>
+
+  <!-- 拓片玄武墨核层 (The Monolith Frame) -->
+  <rect x="80" y="80" width="1040" height="1440" fill="#0e100c" stroke="#4c4c3e" stroke-width="1" />
+
+  <!-- 金石拓细线槽格 (Stele Gridlines, 1px) -->
+  <line x1="80" y1="180" x2="1120" y2="180" stroke="#4c4c3e" stroke-width="1" />
+  <line x1="80" y1="1380" x2="1120" y2="1380" stroke="#4c4c3e" stroke-width="1" />
+  <line x1="860" y1="180" x2="860" y2="1380" stroke="#4c4c3e" stroke-width="1" />
+
+  <!-- 顶部档案题铭 (Archival Header) -->
+  <text x="120" y="145" fill="#a8a18b" font-family="Georgia, serif" font-size="14" letter-spacing="4">ARCHIVAL MATRIX // 01</text>
+  <text x="600" y="145" fill="#a8a18b" font-family="Georgia, serif" font-size="14" letter-spacing="3" text-anchor="middle">INSIDE THE CABLE TEMPLE</text>
+  <text x="1080" y="145" fill="#e4ddcb" font-family="Georgia, serif" font-size="14" font-weight="bold" letter-spacing="2" text-anchor="end">114°29'E 38°02'N</text>
+
+  <!-- 核心主展示汉字（行气微落差：偶数位微下沉 8px） -->
+  <g fill="#e4ddcb" font-family="'Ma Shan Zheng', 'KaiTi', serif" font-size="120">
+    <text x="240" y="420">冀</text>
+    <text x="380" y="428">西</text>
+    <text x="520" y="420">南</text>
+    <text x="240" y="580">林</text>
+    <text x="380" y="588">路</text>
+    <text x="520" y="580">行</text>
+  </g>
+
+  <!-- 西文小型题铭与尺度悬殊对比 (14:1 对比) -->
+  <text x="240" y="660" fill="#a8a18b" font-family="Georgia, serif" font-size="16" letter-spacing="6" text-transform="uppercase">
+    OMNIPOTENT YOUTH SOCIETY · CHRONICLE
+  </text>
+
+  <!-- 侧栏信息槽格 (右侧纵向参数栏) -->
+  <g font-family="Georgia, serif" font-size="12" fill="#a8a18b" letter-spacing="2">
+    <text x="890" y="240">SEC: 01/BASALT</text>
+    <text x="890" y="280">DENSITY: 88.4%</text>
+    <text x="890" y="320">MEDIUM: RUBBING</text>
+    <text x="890" y="360">INK: PINE SOOT</text>
+    <text x="890" y="400">STATE: <tspan fill="#9c5847" font-weight="bold">INDEXED</tspan></text>
+  </g>
+
+  <!-- 底部技术出版与版权栏 -->
+  <text x="120" y="1430" fill="#a8a18b" font-family="Georgia, serif" font-size="12" letter-spacing="2">
+    DESIGN TRANSLATION // NON-OFFICIAL ARCHIVAL SPECIFICATION
+  </text>
+  <text x="1080" y="1430" fill="#847b62" font-family="Georgia, serif" font-size="12" letter-spacing="2" text-anchor="end">
+    FORMAT: A1 COMPATIBLE // 2D MINERAL MATTE
+  </text>
+</svg>
