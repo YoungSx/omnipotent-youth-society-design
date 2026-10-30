@@ -25,6 +25,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -49,8 +53,19 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements-dev.txt
 
-      - name: Install Chromium for headless testing
-        run: python -m playwright install --with-deps chromium
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('requirements-dev.txt') }}
+
+      - name: Install Playwright OS dependencies
+        run: python -m playwright install-deps chromium
+
+      - name: Install Chromium browser
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: python -m playwright install chromium
 
       - name: Validate skill specification
         run: python scripts/validate_skill.py
@@ -60,6 +75,14 @@ jobs:
 
       - name: Check offline behavior
         run: python tests/smoke.py
+
+      - name: Upload test artifacts and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-test-artifacts-release
+          path: artifacts/
+          retention-days: 7
 
       - name: Prepare release assets and checksums
         id: prepare
@@ -71,8 +94,7 @@ jobs:
           elif [[ "$REF_NAME" == v* ]]; then
             TAG="$REF_NAME"
           else
-            VERSION=$(python -c 'import yaml; print(yaml.safe_load(open("skill/SKILL.md").read().split("---")[1])["version"])')
-            TAG="v${VERSION}"
+            TAG=$(python -c 'from scripts.validate_skill import SKILL_MD, extract_frontmatter; meta, _ = extract_frontmatter(SKILL_MD.read_text(encoding="utf-8")); print("v" + str(meta["version"]))')
           fi
 
           echo "Target Release Tag: $TAG"
@@ -83,6 +105,15 @@ jobs:
           cp omnipotent-youth-society-design-kit.zip "omnipotent-youth-society-design-kit-${TAG}.zip"
           sha256sum *.zip > checksums.txt
           cat checksums.txt
+
+      - name: Upload release assets to workflow artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-assets
+          path: |
+            dist/*.zip
+            dist/checksums.txt
+          retention-days: 30
 
       - name: Create or update GitHub Release
         env:
