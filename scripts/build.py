@@ -46,6 +46,8 @@ def build_gallery(titles: dict[str, str]) -> list[dict[str, str]]:
         thumbnail = ASSETS / f"thumb-{row['id']}.jpg"
         display = ASSETS / f"view-{row['id']}.jpg"
         for destination, size, quality in [(thumbnail, (540, 640), 82), (display, (1200, 1600), 85)]:
+            if destination.is_file() and destination.stat().st_size > 0 and destination.stat().st_mtime >= original.stat().st_mtime:
+                continue
             with Image.open(original) as image:
                 image = image.convert("RGB")
                 image.thumbnail(size)

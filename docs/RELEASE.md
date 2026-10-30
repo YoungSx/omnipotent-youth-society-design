@@ -69,9 +69,9 @@ omnipotent-youth-society-design/
 
 ```mermaid
 flowchart LR
-    A[触发发版] --> B[卡点 1: 静态规范校验 scripts/validate_skill.py]
-    B --> C[卡点 2: 页面与制品构建 python build.py]
-    C --> D[卡点 3: 离线冒烟断言 python tests/smoke.py]
+    A[触发发版] --> B["卡点 1: 静态规范校验 scripts/validate_skill.py"]
+    B --> C["卡点 2: 页面与制品构建 python build.py"]
+    C --> D["卡点 3: 轻量产物完整性断言 python tests/test_build.py"]
     D --> E[生成带版本制品 & SHA-256]
     E --> F[发布到 GitHub Release]
 ```
@@ -86,16 +86,12 @@ flowchart LR
    python build.py
    ```
    编译生成单文件 `index.html`，打包生成 `dist/omnipotent-youth-society-design.zip` 与 `dist/omnipotent-youth-society-design-kit.zip`。
-3. **Headless 离线冒烟断言**：
+3. **产物结构与内容完整性断言**：
    ```sh
-   python tests/smoke.py
+   python tests/test_build.py
    ```
-   使用 Playwright 在严格拦截外网网络请求的沙箱环境中，断言：
-   - 离线单文件所有 38 张缩略图加载成功且 naturalWidth > 0；
-   - 内嵌字体 Base64 加载成功；
-   - 360px、728px、1440px 视口无水平排版溢出；
-   - 漫游、图录、规约三视图及暗色/亮色切换无未捕获 JS 异常；
-   - 附件下载链路畅通。
+   毫秒级断言产物结构、关键 DOM 标记、SVG 模板 XML 合法性、ZIP 内部必选清单以及压缩包大小。
+   *(注：如需在本地进行全量浏览器视觉及 E2E 回归测试，可可选安装 `requirements-e2e.txt` 并运行 `python tests/smoke.py`)*。
 
 ---
 
@@ -103,7 +99,7 @@ flowchart LR
 
 ### 方式一：打 Tag 自动发布（推荐标准流程）
 
-1. **更新版本号**：在 [skill/SKILL.md](file:///home/ubuntu/.t3/worktrees/omnipotent-youth-society-design/t3-2c468c2a/skill/SKILL.md) 的 Frontmatter 中更新 `version`（遵循 SemVer 语义化规范，例如 `1.0.1`）。
+1. **更新版本号**：在 [skill/SKILL.md](../skill/SKILL.md) 的 Frontmatter 中更新 `version`（遵循 SemVer 语义化规范，例如 `1.0.1`）。
 2. **提交并推送至 main 分支**：
    ```sh
    git commit -am "chore(release): bump version to 1.0.1"

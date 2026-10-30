@@ -1,6 +1,13 @@
-"""Check offline and project-site builds without external network access."""
+"""Check offline and project-site builds without external network access (local manual E2E)."""
+import sys
 from pathlib import Path
-from playwright.sync_api import sync_playwright
+try:
+    from playwright.sync_api import sync_playwright
+except ImportError:
+    sys.exit(
+        "Playwright is not installed. To run local E2E tests, install with:\n"
+        "  pip install -r requirements-e2e.txt && python -m playwright install chromium"
+    )
 import json
 import argparse
 from contextlib import contextmanager
@@ -27,7 +34,8 @@ def preview_target():
     if not args.site:
         yield (root / 'index.html').as_uri(), None
         return
-    server = ThreadingHTTPServer(('127.0.0.1', 0), partial(QuietHandler, directory=str(root)))
+    server = ThreadingHTTPServer(('127.0.0.1', 0), partial(QuietHandler, directory=str(root))
+    )
     thread = Thread(target=server.serve_forever, daemon=True)
     thread.start()
     origin = f'http://127.0.0.1:{server.server_port}'
