@@ -1,0 +1,3 @@
+# Optional dependencies for running local Playwright end-to-end smoke tests (tests/smoke.py)
+-r requirements-dev.txt
+playwright==1.60.0

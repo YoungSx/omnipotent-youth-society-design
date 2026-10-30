@@ -53,37 +53,14 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements-dev.txt
 
-      - name: Cache Playwright browsers
-        uses: actions/cache@v4
-        id: playwright-cache
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ hashFiles('requirements-dev.txt') }}
-
-      - name: Install Chromium
-        run: |
-          if [ "${{ steps.playwright-cache.outputs.cache-hit }}" = "true" ]; then
-            python -m playwright install-deps chromium
-          else
-            python -m playwright install --with-deps chromium
-          fi
-
       - name: Validate skill specification
         run: python scripts/validate_skill.py
 
       - name: Build offline page and skill packages
         run: python build.py
 
-      - name: Check offline behavior
-        run: python tests/smoke.py
-
-      - name: Upload test artifacts and screenshots
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: smoke-test-artifacts-release
-          path: artifacts/
-          retention-days: 7
+      - name: Verify build outputs and package integrity
+        run: python tests/test_build.py
 
       - name: Prepare release assets and checksums
         id: prepare
