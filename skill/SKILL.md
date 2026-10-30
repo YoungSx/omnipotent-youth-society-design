@@ -6,7 +6,7 @@ description: 为数字界面、平面海报、实物周边与出版装帧等各�
 description_zh: 万能青年旅店视觉设计技能，偏向于《冀西南林路行》装帧美学与跨媒介视觉转译规范。
 description_en: Omnipotent Youth Society visual design skill, centered on the aesthetics of Inside the Cable Temple for cross-medium applications.
 category: design
-version: 1.0.0
+version: 1.0.1
 author: Omnipotent Youth Society Design Lab
 icon: assets/icon.png
 allowed-tools: bash,read_file
